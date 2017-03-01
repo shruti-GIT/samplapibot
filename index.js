@@ -1,5 +1,3 @@
-const apiai = require('apiai');
-const app = apiai("000bf9a133bf45088c470fae2ae9639c");
 
 function sendMessage(event) {
   let sender = event.sender.id;
