@@ -4,6 +4,7 @@
   "description": "god",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "\"echo something pls work && exit 1\""
   },
   "repository": {
