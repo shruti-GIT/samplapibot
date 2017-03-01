@@ -1,21 +1,56 @@
 
-function sendMessage(event) {
-  let sender = event.sender.id;
-  let text = event.message.text;
+'use strict';
 
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: {access_token: 'EAABk5SIfT64BAPlgxDKWEZCcOyWVVBANbnf8xN4Q9bCQetJTNoZBlOtRlPY58KsaqxBobv6aUhrGoUXSLQRUbUbxx8XOyCer98tXGaE3p3c197NZBoqUHZARLR5d1vu9wXZBiD4fBiQbtGpWW0h2akuNdRMhiutbg9xdHMCwSMQZDZD'},
-    method: 'POST',
-    json: {
-      recipient: {id: sender},
-      message: {text: text}
+const express = require('express');
+const bodyParser = require('body-parser');
+
+
+const restService = express();
+restService.use(bodyParser.json());
+
+restService.post('/hook', function (req, res) {
+
+    console.log('hook request');
+
+    try {
+        var speech = 'empty speech';
+
+        if (req.body) {
+            var requestBody = req.body;
+
+            if (requestBody.result) {
+                speech = '';
+
+                if (requestBody.result.fulfillment) {
+                    speech += requestBody.result.fulfillment.speech;
+                    speech += ' ';
+                }
+
+                if (requestBody.result.action) {
+                    speech += 'action: ' + requestBody.result.action;
+                }
+            }
+        }
+
+        console.log('result: ', speech);
+
+        return res.json({
+            speech: speech,
+            displayText: speech,
+            source: 'apiai-webhook-sample'
+        });
+    } catch (err) {
+        console.error("Can't process request", err);
+
+        return res.status(400).json({
+            status: {
+                code: 400,
+                errorType: err.message
+            }
+        });
     }
-  }, function (error, response) {
-    if (error) {
-        console.log('Error sending message: ', error);
-    } else if (response.body.error) {
-        console.log('Error: ', response.body.error);
-    }
-  });
-}
+});
+
+restService.listen((process.env.PORT || 5000), function () {
+    console.log("Server listening");
+});
