@@ -1,0 +1,22 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "god",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo something pls work && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shruti-GIT/sss.git"
+  },
+  "keywords": [
+    "honeybot"
+  ],
+  "author": "shruti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shruti-GIT/sss/issues"
+  },
+  "homepage": "https://github.com/shruti-GIT/sss#readme"
+}
